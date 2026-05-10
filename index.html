@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Digital Kessy — Write. Earn. Rise.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0a0008;
+    --deep: #110015;
+    --plum: #2a0035;
+    --violet: #6b21a8;
+    --lilac: #c084fc;
+    --rose: #f43f5e;
+    --gold: #d4a94a;
+    --cream: #f5efe8;
+    --mist: rgba(192,132,252,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* TYPOGRAPHY */
+  .display { font-family: 'Cormorant Garamond', serif; }
+  .caps { font-family: 'Cinzel', serif; }
+
+  /* ─── HERO ─────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(107,33,168,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 8vw;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--lilac);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--lilac);
+  }
+
+  .hero-title .accent {
+    color: var(--rose);
+    font-style: italic;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(245,239,232,0.65);
+    max-width: 420px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--violet), var(--rose));
+    color: white;
+    padding: 14px 32px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+
+  .btn-ghost {
+    border: 1px solid rgba(192,132,252,0.4);
+    color: var(--lilac);
+    padding: 14px 32px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+
+  .btn-ghost:hover { border-color: var(--lilac); background: rgba(192,132,252,0.06); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .hero-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%),
+                linear-gradient(to top, var(--ink) 0%, transparent 20%);
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 8vw;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(192,132,252,0.5);
+    font-family: 'Cinzel', serif;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--lilac);
+    opacity: 0.4;
+  }
+
+  /* ─── SECTION BASE ──────────────────────────────── */
+  section {
+    padding: 100px 8vw;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: var(--lilac);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .section-title em { color: var(--lilac); font-style: italic; }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, var(--violet), transparent);
+    margin: 32px 0;
+  }
+
+  /* ─── HOOK SECTION ──────────────────────────────── */
+  .hook {
+    background: linear-gradient(180deg, var(--ink) 0%, var(--deep) 100%);
+    text-align: center;
+  }
+
+  .hook .section-title { margin: 0 auto 24px; max-width: 700px; }
+
+  .hook-body {
+    max-width: 560px;
+    margin: 0 auto;
+    color: rgba(245,239,232,0.7);
+    font-size: 1.05rem;
+  }
+
+  .hook-body p { margin-bottom: 16px; }
+
+  .hook-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--lilac);
+    margin: 48px auto;
+    max-width: 600px;
+    line-height: 1.4;
+    position: relative;
+  }
+
+  .hook-quote::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    font-size: 5rem;
+    color: rgba(107,33,168,0.2);
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1;
+  }
+
+  /* ─── RELATABLE ─────────────────────────────────── */
+  .relatable {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .relatable-visual {
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+  }
+
+  .relatable-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .relatable-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,0,8,0.7) 0%, transparent 50%);
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+  }
+
+  .tag {
+    border: 1px solid rgba(192,132,252,0.25);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: rgba(245,239,232,0.65);
+  }
+
+  /* ─── GENRES ────────────────────────────────────── */
+  .genres {
+    background: var(--plum);
+    background: linear-gradient(135deg, #0f0012 0%, #1a0025 50%, #0f0012 100%);
+    text-align: center;
+  }
+
+  .genre-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .genre-card {
+    position: relative;
+    aspect-ratio: 2/3;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .genre-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .genre-card:hover img { transform: scale(1.05); }
+
+  .genre-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,0,8,0.95) 0%, rgba(10,0,8,0.3) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px 24px;
+  }
+
+  .genre-icon { font-size: 1.8rem; margin-bottom: 8px; }
+
+  .genre-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--lilac);
+    margin-bottom: 6px;
+  }
+
+  .genre-desc {
+    font-size: 0.8rem;
+    color: rgba(245,239,232,0.6);
+    line-height: 1.5;
+  }
+
+  /* ─── PLATFORMS ─────────────────────────────────── */
+  .platforms { text-align: center; }
+
+  .platform-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 48px;
+  }
+
+  .platform-pill {
+    background: var(--mist);
+    border: 1px solid rgba(192,132,252,0.2);
+    padding: 12px 28px;
+    border-radius: 2px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--cream);
+  }
+
+  /* ─── PROOF / EARNINGS ──────────────────────────── */
+  .proof {
+    background: linear-gradient(180deg, var(--deep) 0%, var(--ink) 100%);
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .proof-card {
+    border: 1px solid rgba(192,132,252,0.15);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .proof-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--violet), var(--rose));
+  }
+
+  .proof-platform {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--lilac);
+    margin-bottom: 16px;
+  }
+
+  .proof-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .proof-desc {
+    font-size: 0.82rem;
+    color: rgba(245,239,232,0.55);
+  }
+
+  .proof-screenshot {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .proof-screenshot img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+
+  /* ─── BONUSES ───────────────────────────────────── */
+  .bonuses { text-align: center; }
+
+  .bonus-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .bonus-card {
+    background: var(--mist);
+    border: 1px solid rgba(192,132,252,0.12);
+    padding: 36px 20px;
+    position: relative;
+  }
+
+  .bonus-card:hover { border-color: rgba(192,132,252,0.3); }
+
+  .bonus-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .bonus-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    color: var(--lilac);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .bonus-desc {
+    font-size: 0.78rem;
+    color: rgba(245,239,232,0.5);
+    line-height: 1.5;
+  }
+
+  /* ─── AUTHORING VS GHOSTWRITING ─────────────────── */
+  .two-paths {
+    background: linear-gradient(135deg, #080010 0%, #0f0018 100%);
+  }
+
+  .paths-grid {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 0;
+    margin-top: 60px;
+    align-items: stretch;
+  }
+
+  .path-card {
+    border: 1px solid rgba(192,132,252,0.15);
+    padding: 52px 40px;
+    position: relative;
+  }
+
+  .path-card.author { border-color: rgba(212,169,74,0.25); }
+  .path-card.ghost { border-color: rgba(244,63,94,0.2); }
+
+  .path-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .path-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    margin-bottom: 24px;
+  }
+
+  .path-card.author .path-title { color: var(--gold); }
+  .path-card.ghost .path-title { color: var(--rose); }
+
+  .path-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .path-points li {
+    font-size: 0.88rem;
+    color: rgba(245,239,232,0.7);
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .path-points li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: rgba(192,132,252,0.4);
+  }
+
+  .path-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(192,132,252,0.3);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+  }
+
+  /* ─── COURSE SECTION ────────────────────────────── */
+  .course {
+    text-align: center;
+  }
+
+  .course-card {
+    border: 1px solid rgba(192,132,252,0.2);
+    max-width: 900px;
+    margin: 60px auto 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .course-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--violet), var(--rose), var(--gold));
+  }
+
+  .course-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .course-left {
+    padding: 52px 44px;
+    text-align: left;
+    border-right: 1px solid rgba(192,132,252,0.1);
+  }
+
+  .course-right {
+    padding: 52px 44px;
+    text-align: left;
+    background: var(--mist);
+  }
+
+  .course-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--lilac);
+    margin-bottom: 8px;
+  }
+
+  .course-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 28px;
+  }
+
+  .course-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .course-features li {
+    font-size: 0.88rem;
+    color: rgba(245,239,232,0.75);
+    padding-left: 22px;
+    position: relative;
+  }
+
+  .course-features li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--lilac);
+    font-size: 0.6rem;
+    top: 4px;
+  }
+
+  .schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .schedule-item {
+    border-left: 2px solid rgba(192,132,252,0.3);
+    padding-left: 16px;
+  }
+
+  .schedule-day {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--lilac);
+    margin-bottom: 2px;
+  }
+
+  .schedule-class {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--cream);
+    margin-bottom: 2px;
+  }
+
+  .schedule-time {
+    font-size: 0.75rem;
+    color: rgba(245,239,232,0.45);
+  }
+
+  /* ─── GHOSTWRITING APP SECTION ──────────────────── */
+  .app-section {
+    background: linear-gradient(180deg, var(--ink) 0%, var(--deep) 100%);
+    text-align: center;
+  }
+
+  .app-preview {
+    margin-top: 60px;
+    border: 1px solid rgba(192,132,252,0.2);
+    overflow: hidden;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .app-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ─── CTA ───────────────────────────────────────── */
+  .cta-section {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(107,33,168,0.3) 0%, transparent 70%);
+  }
+
+  .cta-section > * { position: relative; z-index: 1; }
+
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 300;
+    max-width: 700px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .cta-title em { font-style: italic; color: var(--lilac); }
+
+  .cta-sub {
+    color: rgba(245,239,232,0.6);
+    margin-bottom: 52px;
+    max-width: 460px;
+    font-size: 0.95rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+
+  .btn-whatsapp {
+    background: #25D366;
+    color: #000;
+    padding: 16px 36px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .btn-whatsapp:hover { opacity: 0.85; }
+
+  .btn-selar {
+    background: linear-gradient(135deg, var(--gold), #b8882a);
+    color: #000;
+    padding: 16px 36px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .btn-selar:hover { opacity: 0.85; }
+
+  /* FACE PHOTO IN CTA */
+  .cta-face {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid rgba(192,132,252,0.4);
+    margin-bottom: 24px;
+  }
+
+  .cta-signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(245,239,232,0.4);
+    margin-top: 40px;
+  }
+
+  /* ─── FOOTER ────────────────────────────────────── */
+  footer {
+    border-top: 1px solid rgba(192,132,252,0.1);
+    padding: 40px 8vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: rgba(245,239,232,0.3);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+    color: rgba(245,239,232,0.35);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--lilac); }
+
+  /* ─── ANIMATIONS ────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── MOBILE ────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vh; }
+    .hero-left { padding: 60px 6vw; }
+    .hero-img-overlay { background: linear-gradient(to top, var(--ink) 0%, transparent 40%); }
+
+    .relatable { grid-template-columns: 1fr; }
+    .relatable-visual { aspect-ratio: 16/9; }
+
+    .genre-grid { grid-template-columns: 1fr; }
+    .genre-card { aspect-ratio: 16/9; }
+
+    .proof-grid { grid-template-columns: 1fr; }
+    .proof-screenshot { grid-column: span 1; grid-template-columns: 1fr; }
+
+    .bonus-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .paths-grid { grid-template-columns: 1fr; }
+    .path-divider { display: none; }
+
+    .course-inner { grid-template-columns: 1fr; }
+    .course-left { border-right: none; border-bottom: 1px solid rgba(192,132,252,0.1); }
+
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- HERO                                           -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <span class="hero-eyebrow">Digital Kessy · Ghostwriting Coach</span>
+    <h1 class="hero-title display">
+      Your midnight<br>
+      imagination<br>
+      <em>is worth</em><br>
+      <span class="accent">real money.</span>
+    </h1>
+    <p class="hero-sub">Dark romance. Serialized fiction. Platforms that pay. I'll show you exactly how to turn the stories in your head into income.</p>
+    <div class="hero-cta">
+      <a href="https://selar.com/1191v51k99" class="btn-primary" target="_blank">Join the Course</a>
+      <a href="https://wa.me/2348151605362" class="btn-ghost" target="_blank">DM on WhatsApp</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <!-- IMAGE SLOT: Your dark roses portrait photo (the editorial one) -->
+    <!-- Replace the src below with your base64 string or image URL -->
+    <img class="hero-img" src="REPLACE_WITH_DARK_ROSES_PORTRAIT" alt="Kendra — Digital Kessy" onerror="this.style.background='linear-gradient(135deg,#1a0025,#2a0035)';this.removeAttribute('src')"/>
+    <div class="hero-img-overlay"></div>
+  </div>
+  <div class="scroll-hint">
+    <span class="scroll-line"></span>
+    <span>scroll</span>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- HOOK                                           -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="hook fade-in">
+  <span class="section-label">The truth nobody told you</span>
+  <h2 class="section-title display">Has anyone told you<br><em>your imagination could pay?</em></h2>
+  <div class="divider" style="margin:32px auto;"></div>
+  <div class="hook-body">
+    <p>Those random romance scenes in your head. The way you picture characters, tension, love, drama like a whole movie playing in your mind.</p>
+    <p>That's not useless. That's a skill.</p>
+    <p>You're just lying there, scrolling, trying to sleep — and your brain is already writing a full series.</p>
+  </div>
+  <div class="hook-quote display fade-in">
+    You've probably thought "this would actually make a good story…" — you're right.
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- RELATABLE — WHO YOU ARE                        -->
+<!-- ══════════════════════════════════════════════ -->
+<section style="padding:100px 8vw;">
+  <div class="relatable fade-in">
+    <div class="relatable-visual">
+      <!-- IMAGE SLOT: Your mirror selfie (casual, personality shot) -->
+      <img src="REPLACE_WITH_MIRROR_SELFIE" alt="Digital Kessy" onerror="this.style.background='#1a0025';this.removeAttribute('src')"/>
+    </div>
+    <div>
+      <span class="section-label">This is for you if…</span>
+      <h2 class="section-title display">You love your own<br><em>space.</em> Your own time.</h2>
+      <div class="divider"></div>
+      <p style="color:rgba(245,239,232,0.65);font-size:0.95rem;margin-bottom:32px;">
+        You don't like stressful 9–5 routines. You enjoy being alone. You want comfort, freedom, and income that doesn't require you to show up anywhere physically.
+      </p>
+      <p style="color:rgba(245,239,232,0.65);font-size:0.95rem;margin-bottom:32px;">
+        And yet your mind never stops. It creates worlds, characters, obsessions. Billionaires who can't let go. Mafia men with cold eyes and warm hands. Wolves who recognize their mate by scent alone.
+      </p>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.3rem;color:var(--lilac);">
+        You're already doing the hardest part. You're already creating.
+      </p>
+      <div class="tag-cloud">
+        <span class="tag">Introvert</span>
+        <span class="tag">Homebody</span>
+        <span class="tag">Night owl</span>
+        <span class="tag">Romance reader</span>
+        <span class="tag">Aspiring writer</span>
+        <span class="tag">Wants financial freedom</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- 3 GENRES                                       -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="genres fade-in">
+  <span class="section-label">The most profitable niches</span>
+  <h2 class="section-title display">Romance is <em>winning.</em><br>These three genres lead.</h2>
+
+  <div class="genre-grid">
+    <!-- GENRE 1: BILLIONAIRE -->
+    <div class="genre-card">
+      <!-- IMAGE SLOT: Billionaire cover — "Billionaire's Entangled Fate" book cover -->
+      <img src="REPLACE_WITH_BILLIONAIRES_ENTANGLED_FATE_COVER" alt="Billionaire Romance" onerror="this.style.background='linear-gradient(135deg,#0a0008,#2a0035)';this.removeAttribute('src')"/>
+      <div class="genre-overlay">
+        <div class="genre-icon">💎</div>
+        <div class="genre-name">Billionaire Romance</div>
+        <div class="genre-desc">Power. Obsession. One woman who changes everything. Readers can't put these down.</div>
+      </div>
+    </div>
+
+    <!-- GENRE 2: MAFIA -->
+    <div class="genre-card">
+      <!-- IMAGE SLOT: Mafia cover — "Mafia's Entangled Fate" or "Obsessed with My Bodyguard" -->
+      <img src="REPLACE_WITH_MAFIA_COVER" alt="Mafia Romance" onerror="this.style.background='linear-gradient(135deg,#0a0008,#1a0010)';this.removeAttribute('src')"/>
+      <div class="genre-overlay">
+        <div class="genre-icon">🔥</div>
+        <div class="genre-name">Mafia Romance</div>
+        <div class="genre-desc">Dark men. Dangerous choices. The love that costs everything.</div>
+      </div>
+    </div>
+
+    <!-- GENRE 3: WEREWOLF -->
+    <div class="genre-card">
+      <!-- IMAGE SLOT: Werewolf — the GoodNovel contest page screenshot or werewolf-themed image -->
+      <img src="REPLACE_WITH_WEREWOLF_IMAGE" alt="Werewolf Romance" onerror="this.style.background='linear-gradient(135deg,#0a0008,#001a10)';this.removeAttribute('src')"/>
+      <div class="genre-overlay">
+        <div class="genre-icon">🌙</div>
+        <div class="genre-name">Werewolf Romance</div>
+        <div class="genre-desc">Alphas. Mates. Ancient bonds that defy reason and human logic.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PLATFORMS                                      -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="platforms fade-in">
+  <span class="section-label">Where you publish and earn</span>
+  <h2 class="section-title display">Platforms are <em>looking</em><br>for writers like you.</h2>
+  <p style="max-width:520px;margin:0 auto;color:rgba(245,239,232,0.6);font-size:0.95rem;">
+    These platforms offer contracts, pay based on engagement, and allow long-term earning. You don't need a publisher. You just need consistency.
+  </p>
+  <div class="platform-list">
+    <span class="platform-pill">Dreame</span>
+    <span class="platform-pill">GoodNovel</span>
+    <span class="platform-pill">WebNovel</span>
+    <span class="platform-pill">Gemstone Novel</span>
+    <span class="platform-pill">MoboReader</span>
+    <span class="platform-pill">Inkitt</span>
+    <span class="platform-pill">Mespery</span>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- REAL PROOF                                     -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="proof fade-in">
+  <span class="section-label">Real results. Real numbers.</span>
+  <h2 class="section-title display">This isn't theory.<br><em>Here's what I've earned.</em></h2>
+
+  <div class="proof-grid">
+    <div class="proof-card">
+      <div class="proof-platform">Gemstone Novel</div>
+      <div class="proof-amount display">$127</div>
+      <div class="proof-desc">Mafia's Entangled Fate — income earned from reader engagement on the platform</div>
+    </div>
+
+    <div class="proof-card">
+      <div class="proof-platform">Mespery Platform</div>
+      <div class="proof-amount display">5,000</div>
+      <div class="proof-desc">Ink reward + 5,000 withdrawn from Billionaire's Entangled Fate official signing reward</div>
+    </div>
+
+    <div class="proof-card">
+      <div class="proof-platform">Serialized Platform</div>
+      <div class="proof-amount display">$1,216</div>
+      <div class="proof-desc">Total revenue from a single serialized novel — Aug 2025 alone earned $116.65</div>
+    </div>
+
+    <div class="proof-card">
+      <div class="proof-platform">Ghostwriting Rate</div>
+      <div class="proof-amount display">$4/k</div>
+      <div class="proof-desc">$4 per 1,000 words as starting rate. Increases as you build hit books. Signing bonus included.</div>
+    </div>
+
+    <!-- SCREENSHOT PROOF STRIP -->
+    <div class="proof-screenshot">
+      <!-- IMAGE SLOT: Gemstone income screenshot -->
+      <img src="REPLACE_WITH_GEMSTONE_INCOME_SCREENSHOT" alt="Gemstone $127 proof" onerror="this.style.background='#1a0025';this.removeAttribute('src')"/>
+      <!-- IMAGE SLOT: Mespery income screenshot -->
+      <img src="REPLACE_WITH_MESPERY_INCOME_SCREENSHOT" alt="Mespery 5000 ink proof" onerror="this.style.background='#0f0012';this.removeAttribute('src')"/>
+      <!-- IMAGE SLOT: Total revenue $1216 screenshot -->
+      <img src="REPLACE_WITH_REVENUE_1216_SCREENSHOT" alt="$1216 total revenue proof" onerror="this.style.background='#150020';this.removeAttribute('src')"/>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PLATFORM BONUSES                               -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="bonuses fade-in">
+  <span class="section-label">How writers earn</span>
+  <h2 class="section-title display">You don't earn in<br><em>just one way.</em></h2>
+
+  <div class="bonus-grid">
+    <div class="bonus-card">
+      <div class="bonus-amount display">$50–200</div>
+      <span class="bonus-type">Signing Bonus</span>
+      <div class="bonus-desc">When your story gets accepted by a platform. Your words, your contract.</div>
+    </div>
+    <div class="bonus-card">
+      <div class="bonus-amount display">Daily</div>
+      <span class="bonus-type">Consistency Bonus</span>
+      <div class="bonus-desc">Post daily. Hit word count targets. Platforms reward writers who show up.</div>
+    </div>
+    <div class="bonus-card">
+      <div class="bonus-amount display">$100–500</div>
+      <span class="bonus-type">Completion Bonus</span>
+      <div class="bonus-desc">Most writers don't finish. You do — and platforms pay for it.</div>
+    </div>
+    <div class="bonus-card">
+      <div class="bonus-amount display">Reader</div>
+      <span class="bonus-type">Chapter Income</span>
+      <div class="bonus-desc">Readers pay to unlock your chapters. Better story = more unlocks = more money.</div>
+    </div>
+    <div class="bonus-card">
+      <div class="bonus-amount display">USD</div>
+      <span class="bonus-type">Currency Advantage</span>
+      <div class="bonus-desc">Most platforms pay in dollars. Higher value when converted to naira.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TWO PATHS: AUTHOR VS GHOSTWRITER               -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="two-paths fade-in">
+  <span class="section-label">Two ways to earn</span>
+  <h2 class="section-title display">Build your name.<br>Or <em>earn right now.</em></h2>
+
+  <div class="paths-grid">
+    <div class="path-card author">
+      <span class="path-icon">✍️</span>
+      <div class="path-title">Authoring</div>
+      <ul class="path-points">
+        <li>You write your own stories</li>
+        <li>You build your name and audience</li>
+        <li>You earn from reader income over time</li>
+        <li>You own everything you create</li>
+        <li>Long-term brand and legacy</li>
+      </ul>
+    </div>
+
+    <div class="path-divider display">or</div>
+
+    <div class="path-card ghost">
+      <span class="path-icon">🖊️</span>
+      <div class="path-title">Ghostwriting</div>
+      <ul class="path-points">
+        <li>You write for clients who pay upfront</li>
+        <li>They take the credit — you keep the money</li>
+        <li>Immediate income, no waiting for readers</li>
+        <li>Flexible, project-based work</li>
+        <li>A powerful backup income skill</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="text-align:center;margin-top:48px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;color:var(--lilac);">
+    Build your name as an author — and earn from ghostwriting when needed.
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- COURSE / SCHEDULE                              -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="course fade-in">
+  <span class="section-label">The programme</span>
+  <h2 class="section-title display">Ghostwriting <em>Mastery</em></h2>
+  <p style="max-width:500px;margin:0 auto;color:rgba(245,239,232,0.6);font-size:0.95rem;">
+    A community and course where serious writers learn to write, earn, and grow — one chapter at a time.
+  </p>
+
+  <div class="course-card">
+    <div class="course-inner">
+      <div class="course-left">
+        <div class="course-title display">What you get</div>
+        <div class="course-subtitle">Ghostwriting Mastery — by Digital Kessy</div>
+        <ul class="course-features">
+          <li>Step-by-step ghostwriting lessons (real techniques, not theory)</li>
+          <li>How to write engaging, addictive dark romance chapters</li>
+          <li>Chapter outlines + story structures that platforms accept</li>
+          <li>Real examples & templates from published books</li>
+          <li>Money-making strategies — authoring AND ghostwriting</li>
+          <li>How to design simple book covers</li>
+          <li>Feedback, guidance, and a writer community</li>
+        </ul>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="https://selar.com/1191v51k99" class="btn-primary" target="_blank">Enrol Now</a>
+          <a href="https://wa.me/2348151605362" class="btn-ghost" target="_blank">Ask a Question</a>
+        </div>
+      </div>
+
+      <div class="course-right">
+        <div class="course-title display">Weekly schedule</div>
+        <div class="course-subtitle">Live Classes — 7:00 PM WAT</div>
+        <div class="schedule-list">
+          <div class="schedule-item">
+            <div class="schedule-day">✍️ Tuesday Night</div>
+            <div class="schedule-class display">Ghostwriting Tutorial</div>
+            <div class="schedule-time">Techniques. Craft. Write like you mean it.</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-day">📖 Thursday</div>
+            <div class="schedule-class display">Reading Class</div>
+            <div class="schedule-time">Study real books. Pull inspiration. Draft your own chapter.</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-day">🦋 Saturday</div>
+            <div class="schedule-class display">Ghostwriting Class</div>
+            <div class="schedule-time">Advanced skills. Real challenges. Practical advice.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- AI GHOSTWRITING APP PREVIEW                    -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="app-section fade-in">
+  <span class="section-label">Built by Digital Kessy</span>
+  <h2 class="section-title display">An AI-powered tool<br><em>trained for dark romance.</em></h2>
+  <p style="max-width:500px;margin:0 auto 0;color:rgba(245,239,232,0.6);font-size:0.95rem;">
+    The Digital Kessy Ghostwriting Studio generates outlines and chapter drafts for werewolf, billionaire, and mafia romance — built by the same person teaching you.
+  </p>
+  <div class="app-preview">
+    <!-- IMAGE SLOT: App screenshot showing the story outline step (laptop photo) -->
+    <img src="REPLACE_WITH_APP_OUTLINE_SCREENSHOT" alt="Ghostwriting Studio App" style="width:100%;display:block;" onerror="this.style.background='#0f0012';this.style.height='300px';this.removeAttribute('src')"/>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- CTA                                            -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="cta-section fade-in">
+  <!-- IMAGE SLOT: Your dark roses portrait (cropped circular) -->
+  <img class="cta-face" src="REPLACE_WITH_DARK_ROSES_PORTRAIT" alt="Kendra — Digital Kessy" onerror="this.style.background='#2a0035';this.removeAttribute('src')"/>
+
+  <h2 class="cta-title display">
+    Ready to turn your<br>stories into <em>income?</em>
+  </h2>
+  <p class="cta-sub">
+    Don't just read and scroll. Join the writers who are actually doing this. Your first chapter starts tonight.
+  </p>
+  <div class="cta-buttons">
+    <a href="https://wa.me/2348151605362?text=Hi%20Kendra%2C%20I%20want%20to%20join%20Ghostwriting%20Mastery" class="btn-whatsapp" target="_blank">📲 DM "WRITE" on WhatsApp</a>
+    <a href="https://selar.com/1191v51k99" class="btn-selar" target="_blank">🛒 Enrol on Selar</a>
+  </div>
+  <p class="cta-signature display">— Kendra · Digital Kessy · Ghostwriting Coach</p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- FOOTER                                         -->
+<!-- ══════════════════════════════════════════════ -->
+<footer>
+  <span class="footer-brand">DIGITAL KESSY © 2025</span>
+  <div class="footer-links">
+    <a href="https://wa.me/2348151605362" target="_blank">WhatsApp</a>
+    <a href="https://selar.com/1191v51k99" target="_blank">Selar Course</a>
+    <a href="https://www.tiktok.com/@darkromancewriter3" target="_blank">TikTok</a>
+  </div>
+</footer>
+
+
+<script>
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
